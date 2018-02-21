@@ -121,41 +121,16 @@
     <section class="content-wrap">
         <div class="container">
             <div class="row">
-                <main class="col-md-8 main-content ">
-                    <div class="carousel">
-    <img src="/img/head-img.jpg">
-</div>
-
-
-
-
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
 <article class="post">
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h1 class="post-title">
-                <a href="/2018/02/21/Hexo GitHub搭建个人静态博客/"></a>
-            </h1>
-            <div class="post-meta">  &bull;
-                <time class="post-date" datetime="" title="">
-                    2018年02月21日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
+    <div class="post-head">
+        <h1 id="">
             
-                搭建过程大概需要这么几个步骤：
-1.搭建环境的准备工作（主要是node.js和git环境，以及GitHub账户的设置）
-1、安装npm 
-2、本地Git环境搭建
-3、GitHub账号注册
-4、配置github，创建New respos...
+	            NO Title!
             
-        </p> 
-    </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+        </h1>
+        <div class="post-meta">
     
     
     <span class="categories-meta fa-wrap">
@@ -182,71 +157,96 @@
     </span>
 </div>
 
-        </div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>搭建过程大概需要这么几个步骤：</p>
+<p>1.搭建环境的准备工作（主要是node.js和git环境，以及GitHub账户的设置）</p>
+<pre><code>1、安装npm 
+2、本地Git环境搭建
+3、GitHub账号注册
+4、配置github，创建New respository仓库，选择public
+配置setting的github pages ，有个按钮 Choose a theme 选择一个主题后保存基本上初页就完成了。可以访问如：https://raochuan.github.io/
+</code></pre><p>2.安装并初始化Hexo<br>    为什么要装hexo,使博客有漂亮的皮肤，使用本地环境编译和快速发布Markdown编辑后的文档</p>
+<pre><code>1、新建文件夹 mkdir ‘hexo-page’
+2、安装hexo,npm install hexo-cli -g 请科学上网或者改镜像
+3、保存项目 npm install hexo --save
+4、检测hexo安装 hexo -v
+5、初始化本地脚手架 hexo -init，npm install更新框架
+6、编译和本地调试 hexo g /hexo -s
+本地可以调试和浏览
+</code></pre><p>3.将Hexo和GitHub Page联系起来<br>    主要是关联SSH，配置SSH keys</p>
+<pre><code>1、非第一次使用git生成ssh,用ssh-keygen -t rsa -C &quot;邮件地址@youremail.com&quot;在命令行执行
+2、Mac前往文件夹 ~/.ssh/找到id_rsa.pub文本打开
+3、赋值keys到github的setting里面的ssh and GPG keys
+4、检测是否SSH配置成功 ssh -T git@github.com，未成功需要配置git config全局的邮箱账号
+5、找到本地项目的_config.yml配置如下
 
-        <div class="post-permalink"> 
-            <a href="/2018/02/21/Hexo GitHub搭建个人静态博客/" class="btn btn-default">阅读全文</a>
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+    type: git
+    repo: git@github.com:raochuan/raochuan.github.io.git
+    branch: master
+</code></pre><p>4.如何发布新文章</p>
+<pre><code>1、hexo new post &quot;article title&quot;创建新的.MD文件
+2、在生成和部署文章前安装插件npm install hexo-deployer-git --save 避免连接不上github
+3、生成:hexo g / 部署:hexo d
+</code></pre><p>5.如何解析域名到自己的博客</p>
+<p>6.Hexo插件的添加更换皮肤<br>    1、具体可以看<a href="https://hexo.io/themes/" target="_blank" rel="noopener">hexo 官方网站</a>更换皮肤<br>    2、需要本地安装gulp环境，具体请看<a href="https://www.gulpjs.com.cn/" target="_blank" rel="noopener">gulp文档</a><br>    3、点开theme主题，查看安装文档（本人使用的是hexo-theme-snippet），在项目根目录git clone 后copy gulpfile.js文件到根目录。需要注意的是要根据gulpfile里面文件依赖的库，并npm install安装一下。其中的使用gulp打包的时候报错:</p>
+<pre><code>Gulp Error: Cannot find module &apos;jshint/src/cli&apos;
+解决方案:使用npm install --save-dev jshint gulp-jshint
+而不是npm install --save-dev gulp-jshint
+</code></pre><p>   4、安装完成注意修改_config.yml配置theme文件</p>
+<pre><code># Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+**==theme: snippet==**
+</code></pre><p>   5、启动本地服务浏览没问题按照前面步骤生成和发布，特别注意：发布后需要安装依赖库–save,本地测试环境需要的库可以–save-dev使用</p>
+<p>   6、过程遇到的小姿势</p>
+<pre><code>    1、每次部署hexo d的时候要输入密码，提示:Enter passphrase for key;
+    解决方案:
+        eval `ssh-agent` 
+        ssh-add
+ssh-agent是用于管理密钥，ssh-add用于将密钥加入到ssh-agent中，SSH可以和ssh-agent通信获取密钥，这样就不需要用户手工输入密码了。 顺序执行以上两条命令后就可以用ssh免密登录远程机器了，但这个配置只对当前会话生效，会话关闭或机器重启后都需要重新执行这两条命令。将命令放到~/.bash_profile中，就可以免去每次输入的麻烦。
+</code></pre><p>   7、其他资料     </p>
+<pre><code>详细资料可以看：http://luhongquan.cn/posts/4f5b69ce
+主题来源者:http://www.shenliyang.com/
+</code></pre>
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
         </div>
-    </footer>
+        <div>
+            
+        </div>  
+    </div>
 </article>
 
-
-<article class="post">
-    
-    <div class="post-content">
-        <div class="post-head home-post-head">
-            <h1 class="post-title">
-                <a href="/2018/02/20/hello-world/">Hello World</a>
-            </h1>
-            <div class="post-meta">  &bull;
-                <time class="post-date" datetime="" title="">
-                    2018年02月20日
-                </time>
-            </div>
-        </div>
-        <p class="brief">
-            
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using ...
-            
-        </p> 
-    </div>
-    <footer class="post-footer clearfix">
-        <div class="pull-left tag-list">
-            <div class="post-meta">
+<div class="article-nav prev-next-wrap clearfix">
     
     
-    <span class="categories-meta fa-wrap">
-        <i class="fa fa-folder-open-o"></i>
-        <a href="/categories/ ">
-             
-        </a>
-    </span>
+        <a href="/2018/02/20/hello-world/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
     
-    
-    <span class="fa-wrap">
-        <i class="fa fa-tags"></i>
-        <span class="tags-meta">
-            
-                 
-            
-        </span>
-    </span>
-    
-    
-    <span class="fa-wrap">
-        <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/02/20</span>
-    </span>
 </div>
 
-        </div>
 
-        <div class="post-permalink"> 
-            <a href="/2018/02/20/hello-world/" class="btn btn-default">阅读全文</a>
-        </div>
-    </footer>
-</article>
+    <div id="comments">
+        
+	<!--PC和WAP自适应版-->
+<div id="SOHUCS"></div>
+<script type="text/javascript">
+	(function(){var appid='cyt8KmUC1';var conf='prod_855a68d3b3d91855360a6215672a505a';var width=window.innerWidth||document.documentElement.clientWidth;if(width<960){window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id='+appid+'&conf='+conf+'"><\/script>');}else{var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}
+	c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});}})();
+</script>	
 
+    </div>
 
 
 
