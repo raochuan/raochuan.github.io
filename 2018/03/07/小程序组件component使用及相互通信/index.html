@@ -1,0 +1,692 @@
+<!DOCTYPE HTML>
+<html lang="">
+<head>
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="chuanrao的博客分享技术和生活">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://github.com/raochuan">
+    <!--SEO-->
+
+
+
+
+
+<meta name="robots" content="all" />
+<meta name="google" content="all" />
+<meta name="googlebot" content="all" />
+<meta name="verify" content="all" />
+    <!--Title-->
+
+
+<title>小程序组件component使用及相互通信 | chuanrao的博客分享技术和生活</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="chuanrao的博客分享技术和生活" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
+<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+</head>
+
+
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header"  style="background-image:url(http://7xpw2b.com1.z0.glb.clouddn.com/hexo-sinppet/img/banner2.jpg)"  >
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="">
+            <img src="/img/avatar.jpg" alt="logo头像">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> RC </h2>
+             
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-bars"></i>
+                    </span>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation"><a href="/"><i class="fa fa-fw "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/前端/"><i class="fa fa-fw "></i>前端</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/后端/"><i class="fa fa-fw "></i>后端</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/工具/"><i class="fa fa-fw "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/资源/"><i class="fa fa-fw "></i>资源</a>
+                            </li>
+                        
+                            <li role="presentation"><a href="/categories/生活/"><i class="fa fa-fw "></i>生活</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="小程序组件component使用及相互通信">
+            
+	            小程序组件component使用及相互通信
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a href="/categories/ ">
+             
+        </a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+                 
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2018/03/07</span>
+    </span>
+</div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>类似于页面，自定义组件拥有自己的 wxml 模版和 wxss 样式。<br>使用方式：<br>1、WXML的slot：</p>
+<pre><code>&lt;!-- 组件模板 --&gt;
+&lt;view class=&quot;wrapper&quot;&gt;
+&lt;view&gt;这里是组件的内部节点&lt;/view&gt;
+&lt;slot&gt;&lt;/slot&gt;
+&lt;/view&gt;
+
+&lt;!-- 引用组件的页面模版 --&gt;
+&lt;view&gt;
+&lt;component-tag-name&gt;
+&lt;!-- 这部分内容将被放置在组件 &lt;slot&gt; 的位置上 --&gt;
+&lt;view&gt;这里是插入到组件slot中的内容&lt;/view&gt;
+ &lt;/component-tag-name&gt;
+&lt;/view&gt;
+
+&lt;!-- 引用组件的页面模版JSON —&gt;
+
+    {
+        &quot;usingComponents&quot;:{
+        &quot;component-slot&quot;:&quot;../component/component&quot;
+        }
+    }
+    &lt;!-- 组件模板 --&gt;
+    &lt;view class=&quot;wrapper&quot;&gt;
+    &lt;slot name=&quot;before&quot;&gt;&lt;/slot&gt;
+    &lt;view&gt;这里是组件的内部细节&lt;/view&gt;
+    &lt;slot name=&quot;after&quot;&gt;&lt;/slot&gt;
+    &lt;/view&gt;
+
+    &lt;!-- 引用组件的页面模版 --&gt;
+    &lt;view&gt;
+     &lt;component-tag-name&gt;
+     &lt;!-- 这部分内容将被放置在组件 &lt;slot name=&quot;before&quot;&gt; 的位置上 --&gt;
+    &lt;view slot=&quot;before&quot;&gt;这里是插入到组件slot name=&quot;before&quot;中的内容&lt;/view&gt;
+    &lt;!-- 这部分内容将被放置在组件 &lt;slot name=&quot;after&quot;&gt; 的位置上 --&gt;
+    &lt;view slot=&quot;after&quot;&gt;这里是插入到组件slot name=&quot;after&quot;中的内容&lt;/view&gt;
+    &lt;/component-tag-name&gt;
+    &lt;/view&gt;
+</code></pre><p>Component构造器：<br>刚才我们说了，一个组件内应该包括js, wxml, wxss, json 四个文件。wxml 相当于是 HTML，wxss 相当于是 css, 那么js 里面应该写什么呢？</p>
+<p>微信官方提供的案例中：</p>
+<pre><code>Component({
+behaviors: [],
+properties: {
+},
+data: {}, // 私有数据，可用于模版渲染
+
+// 生命周期函数，可以为函数，或一个在methods段中定义的方法名
+    attached: function(){},
+    moved: function(){},
+    detached: function(){},
+
+    methods: {
+    onMyButtonTap: function(){
+
+    },
+_myPrivateMethod: function(){
+
+},
+  _propertyChange: function(newVal, oldVal) {
+
+}
+}
+})
+</code></pre><p>里面调用了一个Component构造器。Component构造器可用于定义组件，调用Component构造器时可以指定组件的属性、数据、方法等。具体 Component里面可以放什么东西，如下所示：</p>
+<p>组件事件：组件与数据通信</p>
+<p>组件化必然要涉及到数据的通信，为了解决数据在组件间的维护问题，vue, react，angular 有不同的解决方案。而小程序的解决方案则简洁很多</p>
+<h3 id="主页面传入数据到组件"><a href="#主页面传入数据到组件" class="headerlink" title="主页面传入数据到组件"></a>主页面传入数据到组件</h3><p>properties相当于vue的props，是传入外部数据的入口。</p>
+<pre><code>// 主页面使用组件
+&lt;component-custom props-name=&quot;{{customProps}}&quot;&gt;
+&lt;component-first&gt;&lt;/component-first&gt;
+&lt;component-second bindmysecondfun=&quot;onTabSecond&quot;&gt;&lt;/component-second&gt;
+&lt;/component-custom&gt;
+
+// 组件component-custom.js 内
+// pages/home/component-pages/customcomponent/custom/custom.js
+Component({
+     /**
+    * 组件的属性列表
+    */
+    properties: {
+         propsName:{
+         type:String,
+         value:&quot;父组件的值啊&quot;,
+        observer: &apos;_propertyChange&apos;//注意是字符串单引号
+    }
+    },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    &apos;parentName&apos;:&quot;我是父组件，叫爸爸&quot;
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    _propertyChange: function (newVal,oldVal){
+      console.log(&quot;修改后的值:&quot; + newVal);
+      this.setData({
+        parentName:newVal
+      })
+    }
+  },
+  relations:{
+    &apos;../customfirst/customfirst&apos;:{
+      type: &apos;child&apos;,
+      linked: function (target){
+        console.log(&quot;在父组件中的first组件linked&quot;+JSON.stringify(target));
+      },
+      linkChanged: function (target){
+        console.log(&quot;在父组件中的first组件linkChanged&quot; + JSON.stringify(target));
+      },
+      unlinked: function (target){
+        console.log(&quot;在父组件中的first组件unlinked&quot; + JSON.stringify(target));
+      }
+    },
+    &apos;../customsecond/customsecond&apos;: {
+      type: &apos;child&apos;,
+      linked: function (target) {
+        console.log(&quot;在父组件中的first组件linked&quot; + JSON.stringify(target));
+      },
+      linkChanged: function (target) {
+        console.log(&quot;在父组件中的first组件linkChanged&quot; + JSON.stringify(target));
+      },
+      unlinked: function (target) {
+        console.log(&quot;在父组件中的first组件unlinked&quot; + JSON.stringify(target));
+      }
+    }
+
+  }
+})
+</code></pre><p>注意： 传入的数据，不管是简单数据类型，还是引用类型，都如同值复制一样（和红宝书里面描述js函数参数传入。</p>
+<h3 id="组件传出数据到主页面"><a href="#组件传出数据到主页面" class="headerlink" title="组件传出数据到主页面"></a>组件传出数据到主页面</h3><p>代码如上，在组件使用时绑定bindmyevent自定义事件，只有在组件模板内部去调用的时候。可传递到onTabSecond方法来</p>
+<pre><code>//主页的JS
+onTabSecond: function (e) {
+console.error(&quot;主程序的second fun！&quot;);
+this.setData({
+  customProps:&quot;主程序的second fun！&quot;
+})
+}
+//主页的WXML里
+&lt;component-second bindmysecondfun=&quot;onTabSecond&quot;&gt;&lt;/component-second&gt;
+&lt;/component-custom&gt;
+
+组件的JS中写：
+     methods: {
+secondF:function(e) {
+    console.log(&quot;second fun!&quot;);
+    var myEventDetail = e;
+    var myEventOption = {
+      bubbles:true //允许冒泡
+    }
+    this.triggerEvent(&apos;mysecondfun&apos;,myEventDetail,myEventOption);
+},
+}
+</code></pre><p>自定义组件触发事件时，需要使用 triggerEvent 方法，指定事件名、detail对象和事件选项.</p>
+<h3 id="behaviors"><a href="#behaviors" class="headerlink" title="behaviors"></a>behaviors</h3><p>借助behaviors实现组件和子组件通信<br>behaviors 是用于组件间代码共享的特性，类似于一些编程语言中的“mixins”或“traits”<br>代码示例：</p>
+<pre><code>// my-behavior.js
+module.exports = Behavior({
+  behaviors: [],
+  properties: {
+    myBehaviorProperty: {
+      type: String
+    }
+  },
+  data: {
+    myBehaviorData: {}
+  },
+  attached: function(){},
+  methods: {
+    myBehaviorMethod: function(){}
+  }
+})
+</code></pre><p>组件引用时，在 behaviors 定义段中将它们逐个列出即可。</p>
+<p>代码示例：</p>
+<pre><code>// my-component.js
+var myBehavior = require(&apos;my-behavior&apos;)
+Component({
+  behaviors: [myBehavior],
+  properties: {
+    myProperty: {
+      type: String
+    }
+  },
+  data: {
+    myData: {}
+  },
+  attached: function(){},
+  methods: {
+    myMethod: function(){}
+  }
+})
+</code></pre><p>在上例中， my-component 组件定义中加入了 my-behavior ，而 my-behavior 中包含有 myBehaviorProperty 属性、 myBehaviorData 数据字段、 myBehaviorMethod 方法和一个 attached 生命周期函数。这将使得 my-component 中最终包含 myBehaviorProperty 、 myProperty 两个属性， myBehaviorData 、 myData 两个数据字段，和 myBehaviorMethod 、 myMethod 两个方法。当组件触发 attached 生命周期时，会依次触发 my-behavior 中的 attached 生命周期函数和 my-component 中的 attached 生命周期函数。</p>
+<p>字段的覆盖和组合规则</p>
+<p>组件和它引用的 behavior 中可以包含同名的字段，对这些字段的处理方法如下：</p>
+<ul>
+<li>如果有同名的属性或方法，组件本身的属性或方法会覆盖 behavior 中的属性或方法，如果引用了多个 behavior ，在定义段中靠后 behavior 中的属性或方法会覆盖靠前的属性或方法；</li>
+<li>如果有同名的数据字段，如果数据是对象类型，会进行对象合并，如果是非对象类型则会进行相互覆盖；</li>
+<li>生命周期函数不会相互覆盖，而是在对应触发时机被逐个调用。如果同一个 behavior 被一个组件多次引用，它定义的生命周期函数只会被执行一次。</li>
+</ul>
+<h3 id="内置-behaviors使用"><a href="#内置-behaviors使用" class="headerlink" title="内置 behaviors使用"></a>内置 behaviors使用</h3><p> 自定义组件可以通过引用内置的 behavior来获得内置组件的一些行为。<br>组件间相互通信<br>定义和使用组件间关系<br>有时需要实现这样的组件：</p>
+<pre><code>&lt;comment props-title=&apos;{{item.con}}&apos;&gt;
+  &lt;comment-A&gt;点赞按钮&lt;/comment-A&gt;
+  &lt;comment-B props-zan=&apos;{{item.zan}}&apos;&gt; 点赞人数   &lt;/comment-B&gt;
+&lt;/comment&gt;
+</code></pre><p>如果按照上面的逻辑comment-B要和comment-A通信只能：<br>使用relations和getRelationNodes方法获取到comment组件，然后通过comment组件getRelationNodes的方法获取到comment-A，如此来看组件越多重复代码就越多<br>下面直接使用behaviors实现：</p>
+<pre><code>comment.js
+// pages/mine/comment/comment.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+      propsTitle:{
+        type:String,
+        value:&quot;&quot;,
+        observer:&apos;_propertyChange&apos; //这个地方要用字符串
+      }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+      title:&quot;&quot;
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    _propertyChange: function (newVal,oldVal){
+      console.log(&quot;修改后&quot;+newVal);
+      this.setData({
+        title:newVal
+      })
+    }
+  },
+  relations:{
+    &apos;../commentA/commentA&apos;:{
+      type:&quot;child&quot;
+    },
+    &apos;../commentB/commentB&apos;:{
+      type:&quot;child&quot;
+    }
+  }
+})
+
+
+comment-A.js
+// pages/mine/comment/commentA/commentA.js
+var relation_behavior = require(&apos;../../comment_behavior&apos;)
+Component({
+  behaviors: [relation_behavior],
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    _propertyChange : function (newVal,oldVal){
+
+    },
+    tapZanFun : function (e) {
+      console.log(&quot;赞&quot;);
+      var comment_b = this._sibling(&quot;commentB&quot;);
+     console.log(comment_b.data);
+     //假装模拟请求
+     var zanArray = comment_b.data.zan.concat([&quot;我是个帅哥!&quot;]);
+     console.log(zanArray);
+      setTimeout(function(){
+        comment_b.setData({
+          zan: zanArray
+        })
+      },2000);
+    }
+  },
+  relations: {
+    &apos;../comment/comment&apos;: {
+      type: &quot;parent&quot;
+    },
+    &apos;../commentB/commentB&apos;: {
+      type: &quot;sibling&quot;
+    }
+  }
+})
+
+comment-B.js
+// pages/mine/comment/commentB/commentB.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    propsZan: {
+      type: Array,
+      value: [],
+      observer: &apos;_propertyChange&apos; //这个地方要用字符串
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    zan:[]
+  },
+
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    _propertyChange: function (newVal, oldVal) {
+      this.setData({
+        zan:newVal
+      })
+    }
+  },
+  relations: {
+    &apos;../comment/comment&apos;: {
+      type: &quot;parent&quot;
+    },
+    &apos;../commentA/commentA&apos;: {
+      type: &quot;sibling&quot;
+    }
+  }
+})
+
+comment_behavior.js
+module.exports = Behavior({
+  methods: {
+    _parent: function () {
+      var parentNode = this.getRelationNodes(&apos;../comment/comment&apos;);
+      if (parentNode &amp;&amp; parentNode.length != 0) {
+        return parentNode[0];
+      } else {
+        return this;
+      }
+    },
+    _sibling: function (name) {
+      var node = this._parent().getRelationNodes(`../${name}/${name}`);
+      if (node &amp;&amp; node.length &gt; 0) {
+        return node[0];
+      }
+    }
+  }
+})
+</code></pre>
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="https://raochuan.github.io/" target="_blank">chuan</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2018/02/21/Hexo GitHub搭建个人静态博客/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+   <p>评论系统未开启，无法评论！</p>
+
+    </div>
+
+
+
+
+
+                </main>
+                
+    <aside class="col-md-4 sidebar">
+        
+        
+    <div class="widget">    
+        <h3 class="title">搜索</h3>
+        <div id="search-form">
+            <div id="result-mask" class="hide"></div>
+            <div class="search-area">
+                
+                    <input id="search-key" type="search" autocomplete="off" placeholder="搜点什么呢?">
+                    <button type="button" class="search-form-submit" id="search-local">站内搜索</button>
+                
+                
+            </div>
+            <div id="result-wrap" class="hide">
+                <div id="search-result"></div>
+            </div>
+            <div class="hide">
+                <template id="search-tpl">
+                    <div class="item">
+                        <a href="/{path}" title="{title}">
+                            <div class="title">{title}</div>
+                            <div class="content">{content}</div>
+                        </a>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget notification">
+        <h3 class="title">网站公告</h3>
+        <div>
+            <p>新的开始，长久的累积</p>
+        </div>
+    </div>
+
+        
+        
+    <div class="widget">
+      <h3 class="title">社交</h3> 
+        <div class="content social">
+            
+	            <a href="//github.com/raochuan" rel="external nofollow" title="Github" target="_blank">
+			    	<i class="git fa fa-git"></i>
+			    </a>
+            
+	            <a href="mailto:chuanabc00@gmail.com" rel="external nofollow" title="邮箱" target="_blank">
+			    	<i class="envelope-o fa fa-envelope-o"></i>
+			    </a>
+            
+	            <a href="//weibo.com/rc88888888" rel="external nofollow" title="微博" target="_blank">
+			    	<i class="weibo fa fa-weibo"></i>
+			    </a>
+            
+	            <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+			    	<i class="feed fa fa-feed"></i>
+			    </a>
+            
+        </div>
+    </div>
+
+
+        
+        
+
+        
+        
+    <div class="widget">
+      <h3 class="title">归档</h3>
+        <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/"><i class="fa" aria-hidden="true">March 2018</i></a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/"><i class="fa" aria-hidden="true">February 2018</i></a><span class="archive-list-count">2</span></li></ul>
+    </div>
+
+
+        
+        
+
+        
+        
+
+        
+    </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"> 
+                <span>Copyright &copy; 2017
+                </span> | 
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> | 
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<script src="/js/search.js?rev=@@hash"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+
+</body>
+</html>
