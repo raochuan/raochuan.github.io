@@ -27,7 +27,7 @@
     <!--Title-->
 
 
-<title>Hello World | chuanrao的博客分享技术和生活</title>
+<title>小程序组件component使用及相互通信 | chuanrao的博客分享技术和生活</title>
 
 
     <link rel="alternate" href="/atom.xml" title="chuanrao的博客分享技术和生活" type="application/atom+xml">
@@ -128,9 +128,9 @@
                     <p id="process"></p>
 <article class="post">
     <div class="post-head">
-        <h1 id="Hello World">
+        <h1 id="小程序组件component使用及相互通信">
             
-	            Hello World
+	            小程序组件component使用及相互通信
             
         </h1>
         <div class="post-meta">
@@ -156,7 +156,7 @@
     
     <span class="fa-wrap">
         <i class="fa fa-clock-o"></i>
-        <span class="date-meta">2018/02/20</span>
+        <span class="date-meta">2018/03/06</span>
     </span>
 </div>
 
@@ -165,16 +165,50 @@
     </div>
     
     <div class="post-body post-content">
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>类似于页面，自定义组件拥有自己的 wxml 模版和 wxss 样式。</p>
+<p>使用方式：<br>WXML的slot：<br><!-- 组件模板 --></p>
+<view class="wrapper"><br>  <view>这里是组件的内部节点</view><br>  <slot></slot><br></view>
 
+<!-- 引用组件的页面模版 -->
+<view><br>  <component-tag-name><br>    <!-- 这部分内容将被放置在组件 <slot> 的位置上 --><br>    <view>这里是插入到组件slot中的内容</view><br>  </component-tag-name><br></view><br><!-- 引用组件的页面模版JSON —>
+{
+"usingComponents":{
+"component-slot":"../component/component"
+}
+}
+
+<!-- 组件模板 --><br><view class="wrapper"><br>  <slot name="before"></slot><br>  <view>这里是组件的内部细节</view><br>  <slot name="after"></slot><br></view>
+
+<!-- 引用组件的页面模版 -->
+<view><br>  <component-tag-name><br>    <!-- 这部分内容将被放置在组件 <slot name="before"> 的位置上 --><br>    <view slot="before">这里是插入到组件slot name=”before”中的内容</view><br>    <!-- 这部分内容将被放置在组件 <slot name="after"> 的位置上 --><br>    <view slot="after">这里是插入到组件slot name=”after”中的内容</view><br>  </component-tag-name><br></view><br>Component构造器：<br>刚才我们说了，一个组件内应该包括js, wxml, wxss, json 四个文件。wxml 相当于是 HTML，wxss 相当于是 css, 那么js 里面应该写什么呢？<br><br>微信官方提供的案例中：<br><br>Component({<br><br>behaviors: [],<br><br>properties: {<br><br>},<br>data: {}, // 私有数据，可用于模版渲染<br><br>// 生命周期函数，可以为函数，或一个在methods段中定义的方法名<br>attached: function(){},<br>moved: function(){},<br>detached: function(){},<br><br>methods: {<br>   onMyButtonTap: function(){<br><br>},<br>   _myPrivateMethod: function(){<br><br>},<br>   _propertyChange: function(newVal, oldVal) {<br><br>}<br>}<br>})<br><br>里面调用了一个Component构造器。Component构造器可用于定义组件，调用Component构造器时可以指定组件的属性、数据、方法等。具体 Component里面可以放什么东西，如下所示：<br><br>组件事件：组件与数据通信<br><br>组件化必然要涉及到数据的通信，为了解决数据在组件间的维护问题，vue, react，angular 有不同的解决方案。而小程序的解决方案则简洁很多<br><br>主页面传入数据到组件<br><br>properties相当于vue的props，是传入外部数据的入口。<br><br>// 主页面使用组件<br><a add_like=""><br></a><br><br>// 组件a.js 内<br>Component({<br>   properties:{<br>       add_like:{<br>           type:Array,<br>           value:[],<br>           observer:function(){<br>}<br>}<br>}<br>})<br>注意： 传入的数据，不管是简单数据类型，还是引用类型，都如同值复制一样（和红宝书里面描述js函数参数传入是值复制还不一样，红宝书里面的意思是：简单数据类型直接复制数值，引用类型复制引用，也就是说在函数内修改参数对象的属性，会影响到函数外对象的属性）。<br><br>组件传出数据到主页面<br>在组件使用时绑定bindmyevent自定义事件，只有在组件模板内部去调用的时候。可传递到onMyEvent方法来<br><br><!-- 当自定义组件触发“myevent”事件时，调用“onMyEvent”方法 --><br><component-tag-name bindmyevent="onMyEvent"><br><!-- 或者可以写成 --><br><component-tag-name bind:myevent="onMyEvent"><br><!-- 使用组件JS中 定义个方法。组件不会直接调用 --><br><br>Page({<br>  onMyEvent: function(e){<br>    e.detail // 自定义组件触发事件时提供的detail对象<br>  }<br>})<br><br>&lt;!– 组件模板 —&gt;<br><view class="wrapper"><br><view>这里是组件的内部节点</view><br><slot name="before"></slot><br><slot name="after"></slot><br></view>
+
+<view bindtap="onTap">点击测试事件</view>
+
+<p>组件的JS中写：</p>
+<p>/**</p>
+<ul>
+<li>组件的方法列表<br>*/<br>methods: {<br>onTap: function(e){<br>console.log(JSON.stringify(e));<br>var myEventDetail = {a:”123123”} // detail对象，提供给事件监听函数<br>var myEventOption = {  // 触发事件的选项 bubbles是否冒泡，composed是否可穿越组件边界，capturePhase 是否有捕获阶段<br>composed : true,<br>// bubbless : true,<br>// capturePhase : false</li>
+</ul>
+<p>}<br>this.triggerEvent(‘myevent’, myEventDetail, myEventOption)<br>}<br>}<br>自定义组件触发事件时，需要使用 triggerEvent 方法，指定事件名、detail对象和事件选项.</p>
+<p>behaviors<br>借助behaviors实现组件和子组件通信<br>behaviors 是用于组件间代码共享的特性，类似于一些编程语言中的“mixins”或“traits”<br>代码示例：</p>
+<p>// my-behavior.js<br>module.exports = Behavior({<br>  behaviors: [],<br>  properties: {<br>    myBehaviorProperty: {<br>      type: String<br>    }<br>  },<br>  data: {<br>    myBehaviorData: {}<br>  },<br>  attached: function(){},<br>  methods: {<br>    myBehaviorMethod: function(){}<br>  }<br>})</p>
+<p>组件引用时，在 behaviors 定义段中将它们逐个列出即可。</p>
+<p>代码示例：</p>
+<p>// my-component.js<br>var myBehavior = require(‘my-behavior’)<br>Component({<br>  behaviors: [myBehavior],<br>  properties: {<br>    myProperty: {<br>      type: String<br>    }<br>  },<br>  data: {<br>    myData: {}<br>  },<br>  attached: function(){},<br>  methods: {<br>    myMethod: function(){}<br>  }<br>})<br>在上例中， my-component 组件定义中加入了 my-behavior ，而 my-behavior 中包含有 myBehaviorProperty 属性、 myBehaviorData 数据字段、 myBehaviorMethod 方法和一个 attached 生命周期函数。这将使得 my-component 中最终包含 myBehaviorProperty 、 myProperty 两个属性， myBehaviorData 、 myData 两个数据字段，和 myBehaviorMethod 、 myMethod 两个方法。当组件触发 attached 生命周期时，会依次触发 my-behavior 中的 attached 生命周期函数和 my-component 中的 attached 生命周期函数。</p>
+<p>字段的覆盖和组合规则</p>
+<p>组件和它引用的 behavior 中可以包含同名的字段，对这些字段的处理方法如下：</p>
+<ul>
+<li>如果有同名的属性或方法，组件本身的属性或方法会覆盖 behavior 中的属性或方法，如果引用了多个 behavior ，在定义段中靠后 behavior 中的属性或方法会覆盖靠前的属性或方法；</li>
+<li>如果有同名的数据字段，如果数据是对象类型，会进行对象合并，如果是非对象类型则会进行相互覆盖；</li>
+<li>生命周期函数不会相互覆盖，而是在对应触发时机被逐个调用。如果同一个 behavior 被一个组件多次引用，它定义的生命周期函数只会被执行一次。</li>
+</ul>
+<p>内置 behaviors</p>
+<p> 自定义组件可以通过引用内置的 behavior 来获得内置组件的一些行为。</p>
+<p>组件间相互通信</p>
+<p>定义和使用组件间关系</p>
+<p>有时需要实现这样的组件：</p>
+<p><custom-ul><br>  <custom-li> item 1 </custom-li><br>  <custom-li> item 2 </custom-li><br></custom-ul><br>具体实例请看代码：github找我</p>
+</component-tag-name></component-tag-name>
     </div>
 
     <div class="post-footer">   
@@ -191,8 +225,8 @@
 
 <div class="article-nav prev-next-wrap clearfix">
     
-        <a href="/2018/02/21/Hexo GitHub搭建个人静态博客/" class="pre-post btn btn-default"><i class="fa fa-angle-left fa-fw"></i>上一篇</a>
     
+        <a href="/2018/02/21/Hexo GitHub搭建个人静态博客/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
     
 </div>
 
